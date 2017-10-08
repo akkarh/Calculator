@@ -1,8 +1,10 @@
 package calculator.ast;
-
 import calculator.interpreter.Environment;
 import calculator.errors.EvaluationError;
+import datastructures.concrete.DoubleLinkedList;
+import datastructures.concrete.dictionaries.ArrayDictionary;
 import datastructures.interfaces.IDictionary;
+import datastructures.interfaces.IList;
 import misc.exceptions.NotYetImplementedException;
 
 /**
@@ -39,38 +41,46 @@ public class ExpressionManipulators {
                 throw new EvaluationError("Undefined variable: " + node.getName());
             }
             // TODO: your code here
-            AstNode variable = variables.get(node.getName());
-            throw new NotYetImplementedException();
+            AstNode var = variables.get(node.getName());
+            return toDoubleHelper(variables, var);
         } else {
             String name = node.getName();
-            double result = 0;
             // TODO: your code here
             IList<AstNode> children = node.getChildren();
+            // AstNode left = children.get(0);
+    			// AstNode right = children.get(1);
             if (name.equals("+")) {
                 // TODO: your code here
-            		
-                throw new NotYetImplementedException();
+            		return toDoubleHelper(variables, children.get(0)) + toDoubleHelper(variables, children.get(1));
             } else if (name.equals("-")) {
                 // TODO: your code here
-                throw new NotYetImplementedException();
+            		return toDoubleHelper(variables, children.get(0)) - toDoubleHelper(variables, children.get(1));
             } else if (name.equals("*")) {
                 // TODO: your code here
-                throw new NotYetImplementedException();
+            		return toDoubleHelper(variables, children.get(0)) * toDoubleHelper(variables, children.get(1));
             } else if (name.equals("/")) {
                 // TODO: your code here
-                throw new NotYetImplementedException();
+            		return toDoubleHelper(variables, children.get(0)) / toDoubleHelper(variables, children.get(1));
             } else if (name.equals("^")) {
                 // TODO: your code here
-                throw new NotYetImplementedException();
+            		int base = (int) toDoubleHelper(variables, children.get(0));
+            		int exp = (int) toDoubleHelper(variables, children.get(1));
+            		double result = 1;
+            		for (int i= 0; i < exp; i++) {
+            			result *= base;
+            		}
+                return result;
             } else if (name.equals("negate")) {
                 // TODO: your code here
-                throw new NotYetImplementedException();
+            		return -1 * toDoubleHelper(variables, children.get(0));
             } else if (name.equals("sin")) {
                 // TODO: your code here
-                throw new NotYetImplementedException();
+                double result = toDoubleHelper(variables, children.get(0));
+                return Math.sin(result);
             } else if (name.equals("cos")) {
                 // TODO: your code here
-                throw new NotYetImplementedException();
+	            	double result = toDoubleHelper(variables, children.get(0));
+	            return Math.cos(result);
             } else {
                 throw new EvaluationError("Unknown operation: " + name);
             }
@@ -85,7 +95,16 @@ public class ExpressionManipulators {
         //         to call your "toDouble" method in some way
 
         // TODO: Your code here
-        throw new NotYetImplementedException();
+    		return new AstNode(simplifyHelper(env.getVariables(), node));
+    }
+    
+    private static AstNode simplifyHelper(IDictionary<String, AstNode> variables, AstNode node) {
+    		if (node.isVariable()) {
+    			if (!variables.containsKey(node.getName())) {
+                    // If the expression contains an undefined variable, we give up.
+                    throw new EvaluationError("Undefined variable: " + node.getName());
+                }
+    		}
     }
 
     /**
