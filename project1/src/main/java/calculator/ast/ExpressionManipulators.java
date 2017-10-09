@@ -47,8 +47,6 @@ public class ExpressionManipulators {
             String name = node.getName();
             // TODO: your code here
             IList<AstNode> children = node.getChildren();
-            // AstNode left = children.get(0);
-    			// AstNode right = children.get(1);
             if (name.equals("+")) {
                 // TODO: your code here
             		return toDoubleHelper(variables, children.get(0)) + toDoubleHelper(variables, children.get(1));
@@ -95,16 +93,31 @@ public class ExpressionManipulators {
         //         to call your "toDouble" method in some way
 
         // TODO: Your code here
-    		return new AstNode(simplifyHelper(env.getVariables(), node));
+    		return simplifyHelper(env.getVariables(), node);
     }
     
     private static AstNode simplifyHelper(IDictionary<String, AstNode> variables, AstNode node) {
-    		if (node.isVariable()) {
-    			if (!variables.containsKey(node.getName())) {
-                    // If the expression contains an undefined variable, we give up.
-                    throw new EvaluationError("Undefined variable: " + node.getName());
-                }
-    		}
+    		// IList<AstNode> children = node.getChildren();
+    		if (node.isNumber()) {
+            // TODO: your code here
+        		return node;
+        } else if (node.isVariable()) {
+	        	if (!variables.containsKey(node.getName())) {
+		        // If the expression contains an undefined variable, we give up.
+		        throw new EvaluationError("Undefined variable: " + node.getName());
+	        }
+	        // TODO: your code here
+	        AstNode var = variables.get(node.getName());
+	        return simplifyHelper(variables, var);
+        } else {
+        		String name = node.getName();
+        		if (name.equals("+") || name.equals("-") || name.equals("*") || name.equals("^")) {
+        			double result = toDoubleHelper(variables, node);
+        			return new AstNode(result);
+        		} else {
+        			return node;
+        		}
+        }
     }
 
     /**
