@@ -149,6 +149,35 @@ public class ExpressionManipulators {
      * @throws EvaluationError  if 'step' is zero or negative
      */
     public static AstNode plot(Environment env, AstNode node) {
+    		AstNode simplified = simplifyHelper(env.getVariables(), node);
+    		IList<AstNode> plotInput = simplified.getChildren();
+    		AstNode exp = plotInput.get(0);
+    		AstNode var = plotInput.get(1);
+    		AstNode varMin = plotInput.get(2);
+    		AstNode varMax = plotInput.get(3);
+    		AstNode step = plotInput.get(4);
+    		
+    		if (varMin.getNumericValue() > varMax.getNumericValue()) {
+    			throw new EvaluationError("Invalid range");
+    		} else if (!varMin.isNumber() || !varMax.isNumber() || !step.isNumber()) {
+    			throw new EvaluationError("Undefined variable");
+    		} else if (exp.isNumber() || var.isNumber()) {
+    			throw new EvaluationError("Variable already defined");
+    		} else if (step.getNumericValue() < 1) {
+    			throw new EvaluationError("Invalid step value");
+    		}
+    		
+    		IList<Double> xValues = new DoubleLinkedList<Double>();
+    		
+    		double range = (varMax.getNumericValue() - varMin.getNumericValue()) / step.getNumericValue();
+    		for (int i = 0; i < (int) range; i++) {
+    			xValues.add(i + step.getNumericValue());
+    		}
+    		
+    		IList<Double> yValues = new DoubleLinkedList<Double>();
+    		for (Double x: xValues) {
+    			
+    		}
        /*
         * vars called: exprToPlot, var, varMin, varMax, step need to be saved! check if they already exist
         * name of list: "plot"
