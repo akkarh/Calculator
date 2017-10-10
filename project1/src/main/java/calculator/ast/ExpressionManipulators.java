@@ -153,7 +153,31 @@ public class ExpressionManipulators {
      * @throws EvaluationError  if 'step' is zero or negative
      */
     public static AstNode plot(Environment env, AstNode node) {
-        throw new NotYetImplementedException();
+       /*
+        * name of list: "plot"
+        * children: x^2 + x, x, -10 * a, 10 * a, 0.1
+        * - First child is expression to be plotted
+        * - Second child is variable being used in expression
+        * - third child is the min of range
+        * - fourth child is the max of the range
+        * - fifth child is the step
+        * 
+        * 1) retrieve variable values EXCEPT the chosen variable
+        * 		(if one doesn't exist throw new EvaluationError)
+        * 
+        * 2) save the range (throw EvaluationError if varMin > varMax)
+        * 
+        * 3) save the step (throw EvaluationError if step is >1)
+        * 
+        * String expression = "";
+        * String staticVariable = "";
+        * String min=;
+        * String max=;
+        * String step=;
+        * 
+        */
+    	
+    	// throw new NotYetImplementedException();
 
         // Note: every single function we add MUST return an
         // AST node that your "simplify" function is capable of handling.
@@ -164,6 +188,6 @@ public class ExpressionManipulators {
         //
         // When working on this method, you should uncomment the following line:
         //
-        // return new AstNode(1);
+        return new AstNode(1);
     }
 }
