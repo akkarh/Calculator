@@ -178,18 +178,21 @@ public class ExpressionManipulators {
     			xValues.add(varMin.getNumericValue() + i * step.getNumericValue());
     		}
     		
+    		IDictionary <String, AstNode> variables = env.getVariables();
     		IList<Double> yValues = new DoubleLinkedList<Double>();    
-    			// variables.add(var);
+    		variables.put(var.getName(), var);  //  adds variable to dictionary
+    		
+    		// SYNTAX ISSUES BEGIN HERE:
     		for (int i = 0; i < (int) numIterations; i++) {
-    			//  plug in xValues[i] to equation to get yValues[i]
-    			// variables.get(var) == xValues[i]
-    			//  yValues.add(toDoubleHelper(exp));
+    			//  we want to plug in xValues[i] to equation to get yValues[i]
+    			var.getNumericValue() = xValues[i];
+    			variables.put(var.getName(), var);  //  sets value of variable  equal to x value you need to eval eqn with
+    			yValues.add(simplifyHelper(variables, exp)); //  evaluates equation and adds y value to list 
     			
     		}
-    			// variables.remove(var);
-    		
-    		
-    		//  Send to drawScatterPlot method
+    			variables.remove(var.getName());  //  removes the variable from the dictionary
+    		    		
+    		//  Send gathered details to drawScatterPlot method
     		//  drawScatterPlot(exp.getName(), "x axis", "y axis", xValues, yValues);
     		
        /*
@@ -202,7 +205,7 @@ public class ExpressionManipulators {
         * 		if they do, 
         * - third child is the min of range
         * - fourth child is the max of the range
-        * - fifth child is the step
+        * - fifth child is the stepi
         * 
         * LOOK AT: ImageDrawer.java
         * drawScatterPlot(String title, String xAxisLabel, String yAxisLabel, IList<Double> xValues, IList<Double> yValues)
