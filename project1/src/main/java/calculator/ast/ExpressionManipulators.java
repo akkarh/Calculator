@@ -154,9 +154,10 @@ public class ExpressionManipulators {
      */
     public static AstNode plot(Environment env, AstNode node) {
        /*
-        * vars called: exprToPlot, var, varMin, varMax, step need to be saved! check if they already exist
+        * 3 * x, x, 2, 5, 0.5
+        * params called: exprToPlot, var, varMin, varMax, step need to be saved! check if they already exist
         * name of list: "plot"
-        * children: x^2 + x, x, -10 * a, 10 * a, 0.1
+        * children: 
         * - First child is expression to be plotted
         * - Second child is variable being used in expression; make sure everything is if var != chosenVariable
         * 		if they do, 
@@ -174,11 +175,8 @@ public class ExpressionManipulators {
         * 
         * 3) save the step (throw EvaluationError if step is >1)
         * 
-        * String expression = "";
-        * String staticVariable = "";
-        * String min=;
-        * String max=;
-        * String step=;
+        * LOOK AT: ImageDrawer.java
+        * drawScatterPlot(String title, String xAxisLabel, String yAxisLabel, IList<Double> xValues, IList<Double> yValues)
         * 
         */
     	
