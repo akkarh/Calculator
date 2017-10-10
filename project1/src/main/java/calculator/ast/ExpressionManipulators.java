@@ -154,10 +154,12 @@ public class ExpressionManipulators {
      */
     public static AstNode plot(Environment env, AstNode node) {
        /*
+        * vars called: exprToPlot, var, varMin, varMax, step need to be saved! check if they already exist
         * name of list: "plot"
         * children: x^2 + x, x, -10 * a, 10 * a, 0.1
         * - First child is expression to be plotted
-        * - Second child is variable being used in expression
+        * - Second child is variable being used in expression; make sure everything is if var != chosenVariable
+        * 		if they do, 
         * - third child is the min of range
         * - fourth child is the max of the range
         * - fifth child is the step
@@ -166,6 +168,9 @@ public class ExpressionManipulators {
         * 		(if one doesn't exist throw new EvaluationError)
         * 
         * 2) save the range (throw EvaluationError if varMin > varMax)
+        * 	x value is just whatever goes up to 
+        * 	compute the y value as the list of y values that goes from min to max;
+        * 	
         * 
         * 3) save the step (throw EvaluationError if step is >1)
         * 
