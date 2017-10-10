@@ -178,9 +178,12 @@ public class ExpressionManipulators {
     			xValues.add(varMin.getNumericValue() + i * step.getNumericValue());
     		}
     		
-    		IList<Double> yValues = new DoubleLinkedList<Double>();    		
+    		IList<Double> yValues = new DoubleLinkedList<Double>();    
+    			// variables.add(var);
     		for (int i = 0; i < (int) numIterations; i++) {
     			// plug in xValues[i] to equation to get yValues[i]
+    		}
+    			// variables.remove(var);
     		}
     		
     		//  Send to drawScatterPlot method
