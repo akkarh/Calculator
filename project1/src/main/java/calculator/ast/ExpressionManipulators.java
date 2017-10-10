@@ -149,6 +149,8 @@ public class ExpressionManipulators {
      * @throws EvaluationError  if 'step' is zero or negative
      */
     public static AstNode plot(Environment env, AstNode node) {
+    	
+    		//  Defining variables to plot
     		AstNode simplified = simplifyHelper(env.getVariables(), node);
     		IList<AstNode> plotInput = simplified.getChildren();
     		AstNode exp = plotInput.get(0);
@@ -157,6 +159,7 @@ public class ExpressionManipulators {
     		AstNode varMax = plotInput.get(3);
     		AstNode step = plotInput.get(4);
     		
+    		//  Catching errors
     		if (varMin.getNumericValue() > varMax.getNumericValue()) {
     			throw new EvaluationError("Invalid range");
     		} else if (!varMin.isNumber() || !varMax.isNumber() || !step.isNumber()) {
@@ -167,17 +170,22 @@ public class ExpressionManipulators {
     			throw new EvaluationError("Invalid step value");
     		}
     		
-    		IList<Double> xValues = new DoubleLinkedList<Double>();
-    		
-    		double range = (varMax.getNumericValue() - varMin.getNumericValue()) / step.getNumericValue();
-    		for (int i = 0; i < (int) range; i++) {
-    			xValues.add(i + step.getNumericValue());
+    		//  making list of X-Values and Y-Values
+    		double numIterations = (varMax.getNumericValue() - varMin.getNumericValue()) / step.getNumericValue();
+
+    		IList<Double> xValues = new DoubleLinkedList<Double>();    		    		    		
+    		for (int i = 0; i < (int) numIterations; i++) {
+    			xValues.add(varMin.getNumericValue() + i * step.getNumericValue());
     		}
     		
-    		IList<Double> yValues = new DoubleLinkedList<Double>();
-    		for (Double x: xValues) {
-    			
+    		IList<Double> yValues = new DoubleLinkedList<Double>();    		
+    		for (int i = 0; i < (int) numIterations; i++) {
+    			// plug in xValues[i] to equation to get yValues[i]
     		}
+    		
+    		//  Send to drawScatterPlot method
+    		//  drawScatterPlot(exp.getName(), "x axis", "y axis", xValues, yValues);
+    		
        /*
         * 3 * x, x, 2, 5, 0.5
         * params called: exprToPlot, var, varMin, varMax, step need to be saved! check if they already exist
