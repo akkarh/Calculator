@@ -150,7 +150,7 @@ public class ExpressionManipulators {
      */
     public static AstNode plot(Environment env, AstNode node) {
     	
-    		//  Defining variables to plot
+    		//  Defining variables to us in drawScatterPlot method
     		AstNode simplified = simplifyHelper(env.getVariables(), node);
     		IList<AstNode> plotInput = simplified.getChildren();
     		AstNode exp = plotInput.get(0);
@@ -170,7 +170,7 @@ public class ExpressionManipulators {
     			throw new EvaluationError("Invalid step value");
     		}
     		
-    		//  making list of X-Values and Y-Values
+    		//  making list of X-Values and Y-Values to pass into drawScatterPlot method
     		double numIterations = (varMax.getNumericValue() - varMin.getNumericValue()) / step.getNumericValue();
 
     		IList<Double> xValues = new DoubleLinkedList<Double>();    		    		    		
@@ -181,10 +181,13 @@ public class ExpressionManipulators {
     		IList<Double> yValues = new DoubleLinkedList<Double>();    
     			// variables.add(var);
     		for (int i = 0; i < (int) numIterations; i++) {
-    			// plug in xValues[i] to equation to get yValues[i]
+    			//  plug in xValues[i] to equation to get yValues[i]
+    			// variables.get(var) == xValues[i]
+    			//  yValues.add(toDoubleHelper(exp));
+    			
     		}
     			// variables.remove(var);
-    		}
+    		
     		
     		//  Send to drawScatterPlot method
     		//  drawScatterPlot(exp.getName(), "x axis", "y axis", xValues, yValues);
@@ -200,16 +203,6 @@ public class ExpressionManipulators {
         * - third child is the min of range
         * - fourth child is the max of the range
         * - fifth child is the step
-        * 
-        * 1) retrieve variable values EXCEPT the chosen variable
-        * 		(if one doesn't exist throw new EvaluationError)
-        * 
-        * 2) save the range (throw EvaluationError if varMin > varMax)
-        * 	x value is just whatever goes up to 
-        * 	compute the y value as the list of y values that goes from min to max;
-        * 	
-        * 
-        * 3) save the step (throw EvaluationError if step is >1)
         * 
         * LOOK AT: ImageDrawer.java
         * drawScatterPlot(String title, String xAxisLabel, String yAxisLabel, IList<Double> xValues, IList<Double> yValues)
