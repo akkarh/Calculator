@@ -1,6 +1,7 @@
 package calculator.ast;
 import calculator.interpreter.Environment;
 import calculator.errors.EvaluationError;
+import calculator.gui.ImageDrawer;
 import datastructures.concrete.DoubleLinkedList;
 import datastructures.concrete.dictionaries.ArrayDictionary;
 import datastructures.interfaces.IDictionary;
@@ -192,7 +193,7 @@ public class ExpressionManipulators {
     			variables.remove(var.getName());  //  removes the variable from the dictionary
     		    		
     		//  Send gathered details to drawScatterPlot method
-    		//  drawScatterPlot(exp.getName(), "x axis", "y axis", xValues, yValues);
+    			env.getImageDrawer().drawScatterPlot(exp.getName(), "x axis", "y axis", xValues, yValues);
     		
        /*
         * 3 * x, x, 2, 5, 0.5
@@ -205,10 +206,6 @@ public class ExpressionManipulators {
         * - third child is the min of range
         * - fourth child is the max of the range
         * - fifth child is the stepi
-        * 
-        * LOOK AT: ImageDrawer.java
-        * drawScatterPlot(String title, String xAxisLabel, String yAxisLabel, IList<Double> xValues, IList<Double> yValues)
-        * 
         */
     	
     	// throw new NotYetImplementedException();
@@ -222,6 +219,6 @@ public class ExpressionManipulators {
         //
         // When working on this method, you should uncomment the following line:
         //
-        return new AstNode(1);
+        return exp; //  should return the expression, first child of passed in node
     }
 }
