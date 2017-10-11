@@ -149,75 +149,35 @@ public class ExpressionManipulators {
      * @throws EvaluationError  if 'step' is zero or negative
      */
     public static AstNode plot(Environment env, AstNode node) {
-    		AstNode simplified = simplifyHelper(env.getVariables(), node);
-    		IList<AstNode> plotInput = simplified.getChildren();
-    		AstNode exp = plotInput.get(0);
-    		AstNode var = plotInput.get(1);
-    		AstNode varMin = plotInput.get(2);
-    		AstNode varMax = plotInput.get(3);
-    		AstNode step = plotInput.get(4);
-    		
-    		if (varMin.getNumericValue() > varMax.getNumericValue()) {
-    			throw new EvaluationError("Invalid range");
-    		} else if (!varMin.isNumber() || !varMax.isNumber() || !step.isNumber()) {
-    			throw new EvaluationError("Undefined variable");
-    		} else if (exp.isNumber() || var.isNumber()) {
-    			throw new EvaluationError("Variable already defined");
-    		} else if (step.getNumericValue() < 1) {
-    			throw new EvaluationError("Invalid step value");
+    		IList<AstNode> params = node.getChildren();
+    		for (int i = 2; i < params.size(); i++) {
+    			AstNode input = params.get(i);
+			input = new AstNode(toDoubleHelper(env.getVariables(), input));
+			params.set(i, input);
     		}
-    		
+    		AstNode exp = params.get(0);
+    		AstNode var = params.get(1);
+    		AstNode min = params.get(2);
+    		AstNode max = params.get(3);
+    		AstNode step = params.get(4);
+    		if (env.getVariables().containsKey(var.getName())
+			||(min.getNumericValue() > max.getNumericValue()) 
+			|| step.getNumericValue() <= 0 
+			|| env.getVariables().containsKey(var.getName())) {
+    			throw new EvaluationError("");
+    		}
+    		double numIterations = (max.getNumericValue() - min.getNumericValue()) / step.getNumericValue();
     		IList<Double> xValues = new DoubleLinkedList<Double>();
-    		
-    		double range = (varMax.getNumericValue() - varMin.getNumericValue()) / step.getNumericValue();
-    		for (int i = 0; i < (int) range; i++) {
-    			xValues.add(i + step.getNumericValue());
-    		}
-    		
     		IList<Double> yValues = new DoubleLinkedList<Double>();
-    		for (Double x: xValues) {
-    			
+    		for (int i = 0; i <= (int) numIterations; i++) {
+    			double x = min.getNumericValue() + (i * step.getNumericValue());
+    			xValues.add(x);
+    			env.getVariables().put(var.getName(), new AstNode(x));
+    			double y = toDoubleHelper(env.getVariables(), exp);
+    			yValues.add(y);	
     		}
-       /*
-        * vars called: exprToPlot, var, varMin, varMax, step need to be saved! check if they already exist
-        * name of list: "plot"
-        * children: x^2 + x, x, -10 * a, 10 * a, 0.1
-        * - First child is expression to be plotted
-        * - Second child is variable being used in expression; make sure everything is if var != chosenVariable
-        * 		if they do, 
-        * - third child is the min of range
-        * - fourth child is the max of the range
-        * - fifth child is the step
-        * 
-        * 1) retrieve variable values EXCEPT the chosen variable
-        * 		(if one doesn't exist throw new EvaluationError)
-        * 
-        * 2) save the range (throw EvaluationError if varMin > varMax)
-        * 	x value is just whatever goes up to 
-        * 	compute the y value as the list of y values that goes from min to max;
-        * 	
-        * 
-        * 3) save the step (throw EvaluationError if step is >1)
-        * 
-        * String expression = "";
-        * String staticVariable = "";
-        * String min=;
-        * String max=;
-        * String step=;
-        * 
-        */
-    	
-    	// throw new NotYetImplementedException();
-
-        // Note: every single function we add MUST return an
-        // AST node that your "simplify" function is capable of handling.
-        // However, your "simplify" function doesn't really know what to do
-        // with "plot" functions (and what is the "plot" function supposed to
-        // evaluate to anyways?) so we'll settle for just returning an
-        // arbitrary number.
-        //
-        // When working on this method, you should uncomment the following line:
-        //
-        return new AstNode(1);
+    		env.getVariables().remove(var.getName());
+    		env.getImageDrawer().drawScatterPlot(exp.getName(), "x axis", "y axis", xValues, yValues);
+    		return exp;
     }
 }
