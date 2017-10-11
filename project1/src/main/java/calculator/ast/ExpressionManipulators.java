@@ -1,6 +1,7 @@
 package calculator.ast;
 import calculator.interpreter.Environment;
 import calculator.errors.EvaluationError;
+import calculator.gui.ImageDrawer;
 import datastructures.concrete.DoubleLinkedList;
 import datastructures.concrete.dictionaries.ArrayDictionary;
 import datastructures.interfaces.IDictionary;
