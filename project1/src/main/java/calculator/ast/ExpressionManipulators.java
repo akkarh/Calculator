@@ -170,7 +170,7 @@ public class ExpressionManipulators {
     			throw new EvaluationError("Invalid step value");
     		}
     		
-    		//  making list of X-Values and Y-Values to pass into drawScatterPlot method
+    		//  making lists of X-Values and Y-Values to pass into drawScatterPlot method
     		double numIterations = (varMax.getNumericValue() - varMin.getNumericValue()) / step.getNumericValue();
 
     		IList<Double> xValues = new DoubleLinkedList<Double>();    		    		    		
@@ -182,12 +182,11 @@ public class ExpressionManipulators {
     		IList<Double> yValues = new DoubleLinkedList<Double>();    
     		variables.put(var.getName(), var);  //  adds variable to dictionary
     		
-    		// SYNTAX ISSUES BEGIN HERE:
     		for (int i = 0; i < (int) numIterations; i++) {
-    			//  we want to plug in xValues[i] to equation to get yValues[i]
-    			var.getNumericValue() = xValues[i];
-    			variables.put(var.getName(), var);  //  sets value of variable  equal to x value you need to eval eqn with
-    			yValues.add(simplifyHelper(variables, exp)); //  evaluates equation and adds y value to list 
+    			//  we want to plug in xValues at i to equation to get yValues at i, so value at key var = xValues.get(i))    			
+    			AstNode updatedVarValue = new AstNode(xValues.get(i));	//  sets value of variable  equal to x value you need to eval eqn with
+    			variables.put(var.getName(), updatedVarValue); //  updates value and puts it in dictionary
+    			yValues.add(simplifyHelper(variables, exp).getNumericValue()); //  evaluates equation and adds y value to list 
     			
     		}
     			variables.remove(var.getName());  //  removes the variable from the dictionary
