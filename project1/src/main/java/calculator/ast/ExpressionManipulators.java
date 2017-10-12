@@ -174,7 +174,7 @@ public class ExpressionManipulators {
     		}
     		env.getVariables().remove(var.getName()); // reset the variable dictionary
     		// draw scatter plot
-    		env.getImageDrawer().drawScatterPlot(exp.getName(), var.getName(), exp.getName(), xValues, yValues);
+    		env.getImageDrawer().drawScatterPlot("Plot", var.getName(), "output", xValues, yValues);
     		return exp;
     }
 }
