@@ -34,6 +34,16 @@ The `simplify` method takes an AstNode of type either variable, number, or opera
 
 ![simplify method](img/code_snippet.jpeg "simplify code snippet")
 
+### toDouble
+`toDouble` also implemented recursively, computes the values of the expressions that have been simplified by `simplify`.
+
+### plot
+The plot method uses the `env` object to determine the x-values and y-values to be used in the plot.
+
+## Areas for Improvement
+* The array implementation for the dictionary is highly inefficient for large sets of data. A HashTable implementation would provide O(1) runtime.
+* Current functions of the calculator are somewhat minimal. Some ideas for more features are as follows: more math functions, a solve function, more plot functions.
+
 
 
 
