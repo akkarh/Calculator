@@ -32,6 +32,7 @@ We implemented a part of a simple algebraic calculator. A symbolic algebra calcu
 ### Simplify
 The `simplify` method takes an AstNode of type either variable, number, or operation and simplifies it (only if it produces an exact value). We implemented a recursive method that performs a post-order traversal of the tree. Here is a screenshot of our implementation.
 
+![simplify method](img/code_snippet.jpeg "simplify code snippet")
 
 
 
