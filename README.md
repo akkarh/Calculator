@@ -1,7 +1,7 @@
 # Calculator
 
 ## Part 1 : Implementing the Data Structures
-We implemented the data structures we will be needing for part 2 of this project. We implemented a DoubleLinkedList and an ArrayDictionary that implemented the IList interface in Java.
+We implemented a DoubleLinkedList and an ArrayDictionary which will be used in a latter part of this project.
 
 ### DoubleLinkedList
 Implemented the basic list operations: insert, delete, add, etc. The IList interface can be found in the `src/main/java/datastructures/interfaces/` directory.
